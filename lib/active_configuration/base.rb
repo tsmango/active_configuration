@@ -3,13 +3,13 @@ module ActiveConfiguration
     attr_accessor :options
     
     def initialize
-      @options = []
+      @options = Hash.new
     end
     
     def option(key, &block)
       opt = Option.new(key)
       opt.instance_eval(&block)
-      @options << opt
+      @options[key.to_sym] = opt
     end
     
     class Option

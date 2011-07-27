@@ -12,7 +12,8 @@ begin
     gem.files       = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*"]
     gem.version     = ActiveConfiguration::Version::STRING
     
-    gem.add_dependency 'activerecord', '>= 3.0.0'
+    gem.add_dependency 'activerecord',  '>= 3.0.0'
+    gem.add_dependency 'activesupport', '>= 3.0.0'
   end
   
 rescue

@@ -3,7 +3,7 @@ module ActiveConfiguration
     attr_accessor :options
     
     def initialize
-      @options = Hash.new
+      @options = HashWithIndifferentAccess.new
     end
     
     def option(key, &block)
@@ -21,6 +21,11 @@ module ActiveConfiguration
       
       attr_accessor :key, :default_value, :allowed_format, :allowed_values, :allowed_modifiers, :allow_multiple
       
+      alias :allowed_format?    :allowed_format
+      alias :allowed_values?    :allowed_values
+      alias :allowed_modifiers? :allowed_modifiers
+      alias :allow_multiple?    :allow_multiple
+      
       def initialize(key)
         @key               = key
         @default_value     = nil
@@ -32,25 +37,25 @@ module ActiveConfiguration
       
       def default(value)
         run_callbacks :validate do
-          @default_value = value
+          @default_value = (value.is_a?(Symbol) ? value.to_s : value)
         end
       end
       
       def format(value)
         run_callbacks :validate do
-          @allowed_format = value
+          @allowed_format = (value.is_a?(Symbol) ? value.to_s : value)
         end
       end
       
       def restrict(*values)
         run_callbacks :validate do
-          @allowed_values = values
+          @allowed_values = values.collect{|value| (value.is_a?(Symbol) ? value.to_s : value)}
         end
       end
       
       def modifiers(*values)
         run_callbacks :validate do
-          @allowed_modifiers = values
+          @allowed_modifiers = values.collect{|value| (value.is_a?(Symbol) ? value.to_s : value)}
         end
       end
       
@@ -68,9 +73,17 @@ module ActiveConfiguration
         if ![TrueClass, FalseClass].include?(@allow_multiple.class)
           raise ActiveConfiguration::Error, 'The multiple option requires a boolean.'
         end
+        
+        if !@default_value.nil? and @allow_multiple
+          raise ActiveConfiguration::Error, 'The default value cannot be set in combination with the multiple option.'
+        end
+        
+        if !@allowed_format.nil?
+          if !['string', 'fixnum', 'float', 'email', 'url'].include?(@allowed_format) and !@allowed_format.is_a?(Regexp)
+            raise ActiveConfiguration::Error, "The format #{@allowed_format} is not supported."
+          end
+        end
       end
     end
   end
-  
-  class Error < RuntimeError; end
 end

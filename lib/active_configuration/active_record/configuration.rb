@@ -1,4 +1,5 @@
 require 'active_configuration/base'
+require 'active_configuration/setting_manager'
 
 module ActiveRecord
   module Configuration
@@ -11,7 +12,7 @@ module ActiveRecord
         class_eval <<-EOV
           include ActiveRecord::Configuration::InstanceMethods
           
-          has_many :settings, :as => :configurable
+          has_many :settings, :as => :configurable, :class_name => 'ActiveConfiguration::Setting'
         EOV
         
         class << self
@@ -25,7 +26,9 @@ module ActiveRecord
     end
     
     module InstanceMethods
-      
+      def setting
+        @setting_manager ||= ActiveConfiguration::SettingManger.new(self)
+      end
     end
   end
 end

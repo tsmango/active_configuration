@@ -67,7 +67,7 @@ describe Category do
         @category = Category.create(:name => 'Vinyl')
       end
       
-      describe "and can be read from the #settings. method" do
+      describe "and can be read from the #setting method" do
         it "should return the default value for the sort setting" do
           @category.setting.sort.value.should eq('alphabetical')
         end
@@ -76,13 +76,46 @@ describe Category do
           @category.settings.create(:key => 'sort', :value => 'manual')
           @category.setting.sort.value.should eq('manual')
         end
+        
+        it "should return all values and modifiers for a option marked as multiple" do
+          @category.settings.create(:key => 'containment_rule_price', :modifier => 'gt',  :value => 10.00)
+          @category.settings.create(:key => 'containment_rule_price', :modifier => 'lte', :value => 25.00)
+          @category.setting.containment_rule_price.values.should =~ [{:modifier => 'gt', :value => 10.00}, {:modifier => 'lte', :value => 25.00}]
+        end
       end
       
-      describe "and can be set from the #settings.{key}.update method" do
+      describe "and can be set from the #setting method" do
         it "should override the default value for the sort setting with the given value" do
           @category.setting.sort.value.should eq('alphabetical')
           @category.setting.sort.update('manual')
           @category.setting.sort.value.should eq('manual')
+        end
+        
+        describe "and can handle updating options marked as multiple" do
+          before(:each) do
+            @category.setting.containment_rule_price.values.should =~ []
+            @category.setting.containment_rule_price.update_multiple([
+              {:modifier => 'gt',  :value => 10.00}, 
+              {:modifier => 'lte', :value => 25.00}
+            ])
+          end
+          
+          it "should handle updating values and modifiers for options marked as multiple" do
+            @category.setting.containment_rule_price.values.should =~ [{:modifier => 'gt', :value => 10.00}, {:modifier => 'lte', :value => 25.00}]
+          end
+          
+          it "should have the correct values even after a reload" do
+            @category.reload
+            @category.setting.containment_rule_price.values.should =~ [{:modifier => 'gt', :value => 10.00}, {:modifier => 'lte', :value => 25.00}]
+          end
+
+          it "should handle updating values and modifiers for options marked as multiple, many times in a row" do
+            @category.setting.containment_rule_price.update_multiple([
+              {:modifier => 'gt',  :value => 25.00}, 
+              {:modifier => 'lte', :value => 50.00}
+            ])
+            @category.setting.containment_rule_price.values.should =~ [{:modifier => 'gt', :value => 25.00}, {:modifier => 'lte', :value => 50.00}]
+          end
         end
       end
       
@@ -98,9 +131,19 @@ describe Category do
             @category.setting.limit.update('Ten Products')
           }.should raise_error(ActiveConfiguration::Error)
         end
+        
+        it "should reject a call to #value for a option marked as multiple" do
+          lambda {
+            @category.setting.containment_rule_price.value
+          }.should raise_error(ActiveConfiguration::Error)
+        end
+        
+        it "should reject a call to #modifier for a option marked as multiple" do
+          lambda {
+            @category.setting.containment_rule_price.modifier
+          }.should raise_error(ActiveConfiguration::Error)
+        end
       end
-      
-      # Test multiple options.
     end
   end
   

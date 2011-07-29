@@ -1,5 +1,6 @@
 require 'active_configuration/base'
 require 'active_configuration/setting_manager'
+require 'active_configuration/error'
 
 module ActiveRecord
   module Configuration

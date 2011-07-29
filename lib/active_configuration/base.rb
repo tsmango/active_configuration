@@ -1,3 +1,5 @@
+require 'active_configuration/error'
+
 module ActiveConfiguration
   class Base
     attr_accessor :options
@@ -21,15 +23,12 @@ module ActiveConfiguration
       
       attr_accessor :key, :default_value, :allowed_format, :allowed_values, :allowed_modifiers, :allow_multiple
       
-      alias :allowed_format?    :allowed_format
-      alias :allowed_values?    :allowed_values
-      alias :allowed_modifiers? :allowed_modifiers
-      alias :allow_multiple?    :allow_multiple
+      alias :allow_multiple? :allow_multiple
       
       def initialize(key)
         @key               = key
         @default_value     = nil
-        @allowed_format    = nil
+        @allowed_format    = 'string'
         @allowed_values    = nil
         @allowed_modifiers = nil
         @allow_multiple    = false
@@ -78,10 +77,8 @@ module ActiveConfiguration
           raise ActiveConfiguration::Error, 'The default value cannot be set in combination with the multiple option.'
         end
         
-        if !@allowed_format.nil?
-          if !['string', 'fixnum', 'float', 'email', 'url'].include?(@allowed_format) and !@allowed_format.is_a?(Regexp)
-            raise ActiveConfiguration::Error, "The format #{@allowed_format} is not supported."
-          end
+        if !@allowed_format.nil? and !['string', 'fixnum', 'float', 'email', 'url'].include?(@allowed_format) and !@allowed_format.is_a?(Regexp)
+          raise ActiveConfiguration::Error, "The format #{@allowed_format} is not supported."
         end
       end
     end

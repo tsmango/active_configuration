@@ -9,6 +9,10 @@ class Category < ActiveRecord::Base
         restrict 'alphabetical', 'manual'
       end
       
+      option :limit do
+        format 'fixnum'
+      end
+      
       option :containment_rule_price do
         format    'float'
         modifiers 'eq', 'lt', 'gt', 'lte', 'gte'

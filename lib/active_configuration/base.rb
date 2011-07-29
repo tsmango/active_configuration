@@ -66,7 +66,7 @@ module ActiveConfiguration
       
       def validate!
         if !@default_value.nil? and !@allowed_values.nil? and !@allowed_values.include?(@default_value)
-          raise ActiveConfiguration::Error, "The default value `#{@default_value}` isn't present in the list of allowed values."
+          raise ActiveConfiguration::Error, "The default value '#{@default_value}' isn't present in the list of allowed values."
         end
         
         if ![TrueClass, FalseClass].include?(@allow_multiple.class)

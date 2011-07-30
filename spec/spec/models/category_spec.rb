@@ -30,19 +30,19 @@ describe Category do
     
     context "#configure" do
       it "should have a default value of 'alphabetical'" do
-        Category.active_configuration.options[:sort].default_value.should eq('alphabetical')
+        Category.configuration.options[:sort].default_value.should eq('alphabetical')
       end
       
       it "should have an allowed format of 'float'" do
-        Category.active_configuration.options[:containment_rule_price].allowed_format.should eq('float')
+        Category.configuration.options[:containment_rule_price].allowed_format.should eq('float')
       end
       
       it "should have many allowed modifiers" do
-        Category.active_configuration.options[:containment_rule_price].allowed_modifiers.should =~ ['eq', 'lt', 'gt', 'lte', 'gte']
+        Category.configuration.options[:containment_rule_price].allowed_modifiers.should =~ ['eq', 'lt', 'gt', 'lte', 'gte']
       end
       
       it "should have the allow multiple option set to true" do
-        Category.active_configuration.options[:containment_rule_price].allow_multiple.should be_true
+        Category.configuration.options[:containment_rule_price].allow_multiple.should be_true
       end
     end
     

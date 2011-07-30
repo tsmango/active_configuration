@@ -102,7 +102,7 @@ module ActiveConfiguration
     private
     
     def option
-      return @manager.active_configuration.options[key]
+      return @manager.configuration.options[key]
     end
     
     def cached_setting

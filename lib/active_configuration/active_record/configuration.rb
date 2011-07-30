@@ -14,15 +14,13 @@ module ActiveRecord
           include ActiveRecord::Configuration::InstanceMethods
           
           has_many :settings, :as => :configurable, :class_name => 'ActiveConfiguration::Setting'
+          
+          def self.configuration
+            @configuration ||= ActiveConfiguration::Base.new
+          end
         EOV
         
-        class << self
-          define_method :active_configuration do
-            @active_configuration ||= ActiveConfiguration::Base.new
-          end
-        end
-        
-        active_configuration.instance_eval(&block)
+        configuration.instance_eval(&block)
       end
     end
     

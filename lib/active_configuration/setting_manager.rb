@@ -8,12 +8,12 @@ module ActiveConfiguration
       @configurable = configurable
     end
     
-    def active_configuration
-      @configurable.class.active_configuration
+    def configuration
+      @configurable.class.configuration
     end
     
     def method_missing(sym, *args, &block)
-      if active_configuration.options.has_key?(sym)
+      if configuration.options.has_key?(sym)
         return SettingProxy.new(self, sym)
       else
         return hash.send(sym, *args, &block)

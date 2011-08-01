@@ -70,21 +70,21 @@ module ActiveConfiguration
       end
       
       successful_update    = true
-      original_setting_ids = @manager.configurable.settings.with_key(@key).collect(&:id)
+      original_setting_ids = @manager.configurable.active_configuration_settings.with_key(@key).collect(&:id)
       replaced_setting_ids = []
       
       values_with_modifiers.each do |value_with_modifier|
-        if (setting = @manager.configurable.settings.create(:key => @key, :modifier => value_with_modifier[:modifier], :value => value_with_modifier[:value])).new_record?
+        if (setting = @manager.configurable.active_configuration_settings.create(:key => @key, :modifier => value_with_modifier[:modifier], :value => value_with_modifier[:value])).new_record?
           successful_update = false && break
         else
           replaced_setting_ids << setting.id
         end
       end
       
-      @manager.configurable.settings.reload
-      @manager.configurable.settings.with_key(@key).where(:id => (successful_update ? original_setting_ids : replaced_setting_ids)).destroy_all
+      @manager.configurable.active_configuration_settings.reload
+      @manager.configurable.active_configuration_settings.with_key(@key).where(:id => (successful_update ? original_setting_ids : replaced_setting_ids)).destroy_all
       
-      @cached_settings = @manager.configurable.settings.with_key(@key).all
+      @cached_settings = @manager.configurable.active_configuration_settings.with_key(@key).all
       
       return successful_update
     end
@@ -102,7 +102,7 @@ module ActiveConfiguration
     private
     
     def option
-      return @manager.configuration.options[key]
+      return @manager.configurable.class.configuration.options[key]
     end
     
     def cached_setting
@@ -110,7 +110,7 @@ module ActiveConfiguration
     end
     
     def cached_settings
-      @cached_settings ||= @manager.configurable.settings.with_key(@key).all
+      @cached_settings ||= @manager.configurable.active_configuration_settings.with_key(@key).all
     end
     
     def values
@@ -140,6 +140,10 @@ module ActiveConfiguration
           if !value.is_a?(Float) and !value.is_a?(Fixnum)
             raise ActiveConfiguration::Error, "The value '#{value}' is not a Float."
           end
+        when 'boolean'
+          if !value.is_a?(TrueClass) and !value.is_a?(FalseClass)
+            raise ActiveConfiguration::Error, "The value '#{value}' is not a Boolean."
+          end
         when 'email'
           if !value[/^[A-Z0-9_\.%\+\-\']+@(?:[A-Z0-9\-]+\.)+(?:[A-Z]{2,4}|museum|travel)$/i]
             raise ActiveConfiguration::Error, "The value '#{value}' is not an Email Address."
@@ -167,6 +171,9 @@ module ActiveConfiguration
           value = value.to_i
         when 'float'
           value = value.to_f
+        when 'boolean'
+          value = true  if (value == 'true'  or value == 't')
+          value = false if (value == 'false' or value == 'f')
         end
       end
       

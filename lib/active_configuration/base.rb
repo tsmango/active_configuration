@@ -77,7 +77,7 @@ module ActiveConfiguration
           raise ActiveConfiguration::Error, 'The default value cannot be set in combination with the multiple option.'
         end
         
-        if !@allowed_format.nil? and !['string', 'fixnum', 'float', 'email', 'url'].include?(@allowed_format) and !@allowed_format.is_a?(Regexp)
+        if !@allowed_format.nil? and !['string', 'fixnum', 'float', 'boolean', 'email', 'url'].include?(@allowed_format) and !@allowed_format.is_a?(Regexp)
           raise ActiveConfiguration::Error, "The format #{@allowed_format} is not supported."
         end
       end

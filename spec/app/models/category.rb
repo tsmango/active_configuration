@@ -13,7 +13,7 @@ class Category < ActiveRecord::Base
         format 'fixnum'
       end
       
-      option :containment_rule_price do
+      option :price_filter do
         format    'float'
         modifiers 'eq', 'lt', 'gt', 'lte', 'gte'
         multiple  true

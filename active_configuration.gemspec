@@ -10,10 +10,14 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Thomas Mango"]
   s.date = %q{2011-08-03}
-  s.description = %q{A flexible settings system for Rails 3}
+  s.description = %q{ActiveConfiguration is a Rails 3.x engine for reading and writing settings, 
+                       in a flexible manner, against ActiveRecord models. This engine is meant to 
+                       be used with a highly configurable application so that you don't necessarily 
+                       need to setup specific columns and tables for handling similar style 
+                       configurations.}
   s.email = %q{tsmango@gmail.com}
   s.extra_rdoc_files = [
-    "README"
+    "README.md"
   ]
   s.files = [
     "app/models/active_configuration/setting.rb",
@@ -32,7 +36,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/tsmango/active_configuration}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.6.2}
-  s.summary = %q{A flexible settings system for Rails 3}
+  s.summary = %q{A flexible settings store for Rails 3.x ActiveRecord models.}
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

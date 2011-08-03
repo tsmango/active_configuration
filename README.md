@@ -56,7 +56,7 @@ configuration details, additional methods are made available on instances.
 
 ## Example Usage
 
-Given we have defined the `Category` class above. Instance will now have a #settings 
+Given we have defined the `Category` class above, instances will now have a #settings 
 method where settings can be read from and written to.
 
 	>> category = Category.create(:name => 'Vinyl Records')
@@ -98,7 +98,7 @@ setting that can be configured by your end users. Without ActiveConfiguration,
 you would have to develop a way to store these price filtering rules. With 
 ActiveConfiguration, these price filter rules can be stored in a generic way.
 
-## Tests
+## Testing Environment
 
 The spec/ directory contains a skeleton Rails 3.0.0 application for testing 
 purposes. All specs can be found in spec/spec/.

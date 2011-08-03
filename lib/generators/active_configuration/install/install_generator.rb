@@ -1,4 +1,10 @@
 module ActiveConfiguration
+  
+  # Generates a migration for the settings table.
+  # 
+  # Example:
+  # 
+  #   rails g active_configuration:install
   class InstallGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
     

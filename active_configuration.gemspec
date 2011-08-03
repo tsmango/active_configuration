@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Thomas Mango"]
-  s.date = %q{2011-07-27}
+  s.date = %q{2011-08-03}
   s.description = %q{A flexible settings system for Rails 3}
   s.email = %q{tsmango@gmail.com}
   s.extra_rdoc_files = [
@@ -18,12 +18,16 @@ Gem::Specification.new do |s|
   s.files = [
     "app/models/active_configuration/setting.rb",
     "lib/active_configuration.rb",
-    "lib/active_configuration/active_record/configuration.rb",
     "lib/active_configuration/base.rb",
     "lib/active_configuration/engine.rb",
+    "lib/active_configuration/error.rb",
+    "lib/active_configuration/option.rb",
+    "lib/active_configuration/setting_manager.rb",
+    "lib/active_configuration/setting_proxy.rb",
     "lib/active_configuration/version.rb",
+    "lib/active_record/configuration.rb",
     "lib/generators/active_configuration/install/install_generator.rb",
-    "lib/generators/active_configuration/install/templates/create_settings.rb"
+    "lib/generators/active_configuration/install/templates/create_active_configuration_settings.rb"
   ]
   s.homepage = %q{http://github.com/tsmango/active_configuration}
   s.require_paths = ["lib"]
@@ -34,13 +38,28 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<rails>, ["= 3.0.0"])
+      s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 0"])
+      s.add_runtime_dependency(%q<active_configuration>, [">= 0"])
+      s.add_runtime_dependency(%q<rspec-rails>, [">= 0"])
+      s.add_runtime_dependency(%q<yard>, [">= 0"])
       s.add_runtime_dependency(%q<activerecord>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
     else
+      s.add_dependency(%q<rails>, ["= 3.0.0"])
+      s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
+      s.add_dependency(%q<active_configuration>, [">= 0"])
+      s.add_dependency(%q<rspec-rails>, [">= 0"])
+      s.add_dependency(%q<yard>, [">= 0"])
       s.add_dependency(%q<activerecord>, [">= 3.0.0"])
       s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     end
   else
+    s.add_dependency(%q<rails>, ["= 3.0.0"])
+    s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
+    s.add_dependency(%q<active_configuration>, [">= 0"])
+    s.add_dependency(%q<rspec-rails>, [">= 0"])
+    s.add_dependency(%q<yard>, [">= 0"])
     s.add_dependency(%q<activerecord>, [">= 3.0.0"])
     s.add_dependency(%q<activesupport>, [">= 3.0.0"])
   end

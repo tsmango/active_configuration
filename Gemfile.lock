@@ -2,8 +2,13 @@ PATH
   remote: .
   specs:
     active_configuration (0.0.0)
+      active_configuration
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
+      rails (= 3.0.0)
+      rspec-rails
+      sqlite3-ruby
+      yard
 
 GEM
   remote: http://rubygems.org/

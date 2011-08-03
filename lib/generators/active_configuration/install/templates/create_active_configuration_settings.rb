@@ -1,6 +1,6 @@
-class CreateSettings < ActiveRecord::Migration
+class CreateActiveConfigurationSettings < ActiveRecord::Migration
   def self.up
-    create_table :settings do |t|
+    create_table :active_configuration_settings do |t|
       t.string  :configurable_type
       t.integer :configurable_id
       t.string  :key
@@ -11,6 +11,6 @@ class CreateSettings < ActiveRecord::Migration
   end
   
   def self.down
-    drop_table :settings
+    drop_table :active_configuration_settings
   end
 end

@@ -21,7 +21,7 @@ module ActiveConfiguration
     end
     
     def create_migration_file
-      migration_template('create_settings.rb', 'db/migrate/create_settings.rb')
+      migration_template('create_active_configuration_settings.rb', 'db/migrate/create_active_configuration_settings.rb')
     end
   end
 end

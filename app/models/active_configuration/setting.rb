@@ -8,6 +8,10 @@ module ActiveConfiguration
   # through the configured model. See ActiveRecord::Configuration.
   class Setting < ActiveRecord::Base
     
+    # To avoid collisions with another Setting model that isn't from 
+    # ActiveConfiguration, this model and table is namespaced.
+    set_table_name 'active_configuration_settings'
+    
     # The model this Setting was created against.
     belongs_to :configurable, :polymorphic => true
     

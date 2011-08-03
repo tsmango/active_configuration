@@ -42,15 +42,15 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["= 3.0.0"])
-      s.add_runtime_dependency(%q<sqlite3-ruby>, [">= 0"])
-      s.add_runtime_dependency(%q<active_configuration>, [">= 0"])
-      s.add_runtime_dependency(%q<rspec-rails>, [">= 0"])
-      s.add_runtime_dependency(%q<yard>, [">= 0"])
+      s.add_runtime_dependency(%q<rails>, [">= 3.0.0"])
+      s.add_development_dependency(%q<sqlite3-ruby>, [">= 0"])
+      s.add_development_dependency(%q<active_configuration>, [">= 0"])
+      s.add_development_dependency(%q<rspec-rails>, [">= 0"])
+      s.add_development_dependency(%q<yard>, [">= 0"])
       s.add_runtime_dependency(%q<activerecord>, [">= 3.0.0"])
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.0"])
     else
-      s.add_dependency(%q<rails>, ["= 3.0.0"])
+      s.add_dependency(%q<rails>, [">= 3.0.0"])
       s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
       s.add_dependency(%q<active_configuration>, [">= 0"])
       s.add_dependency(%q<rspec-rails>, [">= 0"])
@@ -59,7 +59,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<activesupport>, [">= 3.0.0"])
     end
   else
-    s.add_dependency(%q<rails>, ["= 3.0.0"])
+    s.add_dependency(%q<rails>, [">= 3.0.0"])
     s.add_dependency(%q<sqlite3-ruby>, [">= 0"])
     s.add_dependency(%q<active_configuration>, [">= 0"])
     s.add_dependency(%q<rspec-rails>, [">= 0"])

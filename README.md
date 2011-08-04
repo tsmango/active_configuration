@@ -1,13 +1,10 @@
 # ActiveConfiguration
 
-ActiveConfiguration is a Rails 3.x engine for reading and writing settings, in 
-a flexible manner, against ActiveRecord models. This engine is meant to be used 
-with a highly configurable application so that you don't necessarily need to 
-setup specific columns and tables for handling similar style configurations.
-
-The idea is to simply offer a generic, configurable, settings store that can 
-be made available to any of your models that need it. If your application isn't 
-very configurable, ActiveConfiguration is probably overkill.
+ActiveConfiguration is an engine that exposes a generic settings store to 
+ActiveRecord models. Made for very configurable applications, it allows you 
+to avoid implementing specific ways to store settings for each model that 
+needs such configuration. If your application isn't very configurable, 
+ActiveConfiguration is probably overkill.
 
 ## Source
 
@@ -21,7 +18,7 @@ Add the following to your Gemfile:
 
 	gem 'active_configuration'
 
-Generate the migration for the active\_configuration\_settings table:
+Generate the migration for the `active_configuration_settings` table:
 
 	rails g active_configuration:install
 
@@ -50,9 +47,9 @@ Migrate your database:
 		end
 	end
 
-After installing ActiveConfiguration, the #configure block is exposed to every 
-ActiveRecord model. If the #configure block is defined, with valid 
-configuration details, additional methods are made available on instances.
+After installing ActiveConfiguration, the #configure block is available to 
+every ActiveRecord model. If the #configure block is defined with a valid 
+configuration, additional methods are made available on instances.
 
 ## Example Usage
 
@@ -83,18 +80,19 @@ method where settings can be read from and written to.
 	?> category.settings.price_filter
 	=> [{:value=>10.0, :modifier=>"gt"}, {:value=>25.0, :modifier=>"lte"}]
 
-The above shows the basic interaction with the settings system. Your 
-application would read and write configured settings from this 
-underlying settings store and use the values however it would normally 
-use specifically designed setting columns and tables.
+The above shows the basic interaction with the settings store. Your 
+application would read and write configured settings from this underlying 
+settings store and use the values however it would normally use a custom 
+settings infrastructure revolving around attributes and models.
 
-For example, if you had a `Category` model that only had a configurable 
-`sort` attribute, ActiveConfiguration would be overkill. Rather, you 
-would just read and write values using a specific `sort` column.
+Note: If you had a `Category` model that only had a configurable `sort` 
+attribute, ActiveConfiguration would be overkill. Rather, you would just read 
+and write values using a specific `sort` column and restrict allowed values 
+using something like `validates_inclusion_of`.
 
-However, if your `Category` model was more flexible in its configuration, 
-you may want a `sort` setting, a `limit` setting and multiple `price_filter` 
-setting that can be configured by your end users. Without ActiveConfiguration, 
+However, if your `Category` model was more flexible in its configuration, you 
+may want a `sort` setting, a `limit` setting and multiple `price_filter` 
+settings that can be configured by your end users. Without ActiveConfiguration, 
 you would have to develop a way to store these price filtering rules. With 
 ActiveConfiguration, these price filter rules can be stored in a generic way.
 
@@ -110,4 +108,4 @@ To run the specs, do the following from the root of active\_configuration:
 
 ## License
 
-Copyright &copy; 2011 Thomas Mango, released under the MIT license
+Copyright &copy; 2011 Thomas Mango, released under the MIT license.

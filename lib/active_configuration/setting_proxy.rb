@@ -140,6 +140,37 @@ module ActiveConfiguration
     # depending on whether or not this is a multiple option, and updates 
     # the underlying ActiveConfiguration::Setting records in the database.
     # 
+    # This method, unlike #update!, will catch any errors and add messages 
+    # to the containing object's set of #errors. If you use this method to 
+    # update settings, be sure to check your model's #errors method.
+    # 
+    # @param [Hash, Array] values_with_modifiers the single Hash or Array 
+    #   of Hashes with the values and modifiers to set. An example single 
+    #   Hash would be {:modifier => 'lt', :value => 10.00}. An Array of 
+    #   Hashes may be used for multiple options.
+    # 
+    # @return [TrueClass, FalseClass] whether or not the update was a success.
+    #   Note: If any errors are raised during the update, error messages will 
+    #   be added to this setting's containing model's set of #errors.
+    # 
+    # @see #validate!
+    def update(*values_with_modifiers)
+      update!(*values_with_modifiers)
+      
+    rescue ActiveConfiguration::Error => error
+      @manager.configurable.errors.add(:settings, error.message)
+      
+      return false
+    end
+    
+    # Takes a single Hash with a value and modifier or an Array of Hashes, 
+    # depending on whether or not this is a multiple option, and updates 
+    # the underlying ActiveConfiguration::Setting records in the database.
+    # 
+    # This method, unlike #update, will not catch any errors or add messages 
+    # to the containing object's set of #errors. If you use this method to 
+    # update settings, be sure to rescue ActiveConfiguration::Error.
+    #
     # @param [Hash, Array] values_with_modifiers the single Hash or Array 
     #   of Hashes with the values and modifiers to set. An example single 
     #   Hash would be {:modifier => 'lt', :value => 10.00}. An Array of 
@@ -150,10 +181,10 @@ module ActiveConfiguration
     # @raise [ActiveConfiguration::Error] if a validation error occurs while 
     #   processing any of the values or modifiers.
     # 
-    # @return [TrueClass, FalseClass] whether or not the update was a success.
+    # @return [TrueClass, FalseClass] whether or not the update was a success.\
     # 
     # @see #validate!
-    def update(*values_with_modifiers)
+    def update!(*values_with_modifiers)
       if values_with_modifiers.size > 1 and !option.allow_multiple?
         raise ActiveConfiguration::Error, "For options not marked as multiple, you may not have multiple settings."
       end

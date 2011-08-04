@@ -149,21 +149,36 @@ describe ActiveConfiguration::SettingProxy do
       @category.settings.sort[:value].should eq('manual')
     end
     
+    it "should update category's set of errors when attempting to update the sort option to a value that doesn't appear in the list of restricted values" do
+      @category.settings.sort.update(:value => 'dne')
+      @category.errors.size.should > 0
+    end
+    
     it "should raise an ActiveConfiguration::Error when attempting to update the sort option to a value that doesn't appear in the list of restricted values" do
       lambda {
-        @category.settings.sort.update(:value => 'dne')
+        @category.settings.sort.update!(:value => 'dne')
       }.should raise_error(ActiveConfiguration::Error)
+    end
+    
+    it "should update category's set of errors when attempting to update the limit option to something other than a fixnum" do
+       @category.settings.limit.update(:value => 'Ten')
+       @category.errors.size.should > 0
     end
     
     it "should raise an ActiveConfiguration::Error when attempting to update the limit option to something other than a fixnum" do
       lambda {
-        @category.settings.limit.update(:value => 'Ten')
+        @category.settings.limit.update!(:value => 'Ten')
       }.should raise_error(ActiveConfiguration::Error)
+    end
+    
+    it "should update category's set of errors when attemping to update a non-multiple option with multiple values" do
+      @category.settings.sort.update({:value => 'alphabetical'}, {:value => 'manual'})
+      @category.errors.size.should > 0
     end
     
     it "should raise an ActiveConfiguration::Error when attemping to update a non-multiple option with multiple values" do
       lambda {
-        @category.settings.sort.update({:value => 'alphabetical'}, {:value => 'manual'})
+        @category.settings.sort.update!({:value => 'alphabetical'}, {:value => 'manual'})
       }.should raise_error(ActiveConfiguration::Error)
     end
   end
@@ -180,15 +195,25 @@ describe ActiveConfiguration::SettingProxy do
       @category.settings.price_filter.to_a.should =~ [{:modifier => 'gt', :value => 10.00}, {:modifier => 'lte', :value => 25.00}]
     end
     
+    it "should update category's set of errors when attempting to set a modifier that doesn't appear in the list of allowed modifiers" do
+      @category.settings.price_filter.update({:modifier => 'dne', :value => 10.00})
+      @category.errors.size.should > 0
+    end
+    
     it "should raise and ActiveConfiguration::Error when attempting to set a modifier that doesn't appear in the list of allowed modifiers" do
       lambda {
-        @category.settings.price_filter.update({:modifier => 'dne', :value => 10.00})
+        @category.settings.price_filter.update!({:modifier => 'dne', :value => 10.00})
       }.should raise_error(ActiveConfiguration::Error)
+    end
+    
+    it "should update category's set of errors when attempting to set a value that isn't a float" do
+      @category.settings.price_filter.update({:modifier => 'gt', :value => 'Ten'})
+      @category.errors.size.should > 0
     end
     
     it "should raise and ActiveConfiguration::Error when attempting to set a value that isn't a float" do
       lambda {
-        @category.settings.price_filter.update({:modifier => 'gt', :value => 'Ten'})
+        @category.settings.price_filter.update!({:modifier => 'gt', :value => 'Ten'})
       }.should raise_error(ActiveConfiguration::Error)
     end
   end

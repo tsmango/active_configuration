@@ -3,8 +3,27 @@
 ActiveConfiguration is an engine that exposes a generic settings store to 
 ActiveRecord models. Made for very configurable applications, it allows you 
 to avoid implementing specific ways to store settings for each model that 
-needs such configuration. If your application isn't very configurable, 
-ActiveConfiguration is probably overkill.
+needs such a configuration. If your application isn't very configurable, 
+ActiveConfiguration isn't what you want.
+
+If you had a `Category` model that only had a configurable `sort` attribute, 
+ActiveConfiguration would be overkill. Rather, you would just read and write 
+values using a specific `sort` column and restrict the allowed values using 
+something like `validates_inclusion_of`.
+
+However, if your `Category` model was more flexible in its configuration, you 
+may want a `sort` setting, a `limit` setting and multiple `price_filter` 
+settings that can be configured by your end user. Without ActiveConfiguration, 
+you would have to develop a way to store and validate these settings for this 
+specific scenario. The `sort` and `limit` settings are simple but because 
+`price_filter` can accept multiple rules, you'd have to set up an additional 
+model. Still, this isn't really an issue when you're dealing with just a single 
+configurable model. When you're dealing with many, things tend to get messy.
+
+With ActiveConfiguration, all of your settings, even for `price_filter`, can 
+be stored in a generic way. ActiveConfiguration provides a place to store 
+settings for each of your models and even handles validation when you restrict 
+the allowed values or format of an option.
 
 ## Source
 
@@ -49,7 +68,7 @@ Migrate your database:
 
 After installing ActiveConfiguration, the #configure block is available to 
 every ActiveRecord model. If the #configure block is defined with a valid 
-configuration, additional methods are made available on instances.
+configuration, additional methods are made available on the model.
 
 ## Example Usage
 
@@ -80,20 +99,12 @@ method where settings can be read from and written to.
 	?> category.settings.price_filter
 	=> [{:value=>10.0, :modifier=>"gt"}, {:value=>25.0, :modifier=>"lte"}]
 
-If you had a `Category` model that only had a configurable `sort` attribute, 
-ActiveConfiguration would be overkill. Rather, you would just read and write 
-values using a specific `sort` column and restrict the allowed values using 
-something like `validates_inclusion_of`.
+Note:
 
-However, if your `Category` model was more flexible in its configuration, you 
-may want a `sort` setting, a `limit` setting and multiple `price_filter` 
-settings that can be configured by your end users. Without ActiveConfiguration, 
-you would develop a way to store and validate these settings. The `sort` and 
-`limit` settings are simple but because `price_filter` can accept multiple 
-rules, you'd have to use a separate table. With ActiveConfiguration, all of 
-your settings, even for `price_filter`, can be stored in a generic way. 
-Additionally, ActiveConfiguration handles validation when you restrict the 
-allowed values or format.
+* Using the #update method will add any errors to your model's errors hash.
+* Using the #update! method will raise `ActiveConfiguration::Error`s instead.
+
+For more details, see `lib/active_configuration/setting_proxy.rb`.
 
 ## Testing Environment
 

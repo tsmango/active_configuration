@@ -1,6 +1,6 @@
 class CreateActiveConfigurationSettings < ActiveRecord::Migration
   def self.up
-    create_table :active_configuration_settings do |t|
+    create_table ActiveConfiguration::Config.table_name do |t|
       t.string  :configurable_type
       t.integer :configurable_id
       t.string  :key
@@ -9,8 +9,8 @@ class CreateActiveConfigurationSettings < ActiveRecord::Migration
       t.timestamps
     end
   end
-  
+
   def self.down
-    drop_table :active_configuration_settings
+    drop_table ActiveConfiguration::Config.table_name
   end
 end

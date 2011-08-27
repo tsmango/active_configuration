@@ -37,9 +37,16 @@ Add the following to your Gemfile:
 
 	gem 'active_configuration'
 
-Generate the migration for the `active_configuration_settings` table:
+Generate the migration for the `settings` table:
 
 	rails g active_configuration:install
+
+Note: The table can be changed from `settings` to something else by specifying 
+a config option in an initializer like:
+
+	# config/initializers/active_configuration.rb
+	
+	Rails.configuration.active_configuration_table_name = 'active_configuration_settings'
 
 Migrate your database:
 

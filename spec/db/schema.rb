@@ -10,17 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110727185748) do
-
-  create_table "active_configuration_settings", :force => true do |t|
-    t.string   "configurable_type"
-    t.integer  "configurable_id"
-    t.string   "key"
-    t.string   "modifier"
-    t.text     "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20110827191826) do
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -30,6 +20,16 @@ ActiveRecord::Schema.define(:version => 20110727185748) do
 
   create_table "products", :force => true do |t|
     t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "settings", :force => true do |t|
+    t.string   "configurable_type"
+    t.integer  "configurable_id"
+    t.string   "key"
+    t.string   "modifier"
+    t.text     "value"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

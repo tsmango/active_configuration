@@ -70,7 +70,7 @@ module ActiveConfiguration
     #
     # @return [Boolean] whether or not the save was successful.
     def save
-      !settings.values.collect{|setting| setting.save}.include?(false)
+      return !settings.values.collect{|setting| setting.save}.include?(false)
     end
 
     # Writes over multiple settings and saves all setting updates at once.

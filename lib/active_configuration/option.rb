@@ -15,7 +15,6 @@ module ActiveConfiguration
 
     # After the :validate callback, execute the #validate! method.
     set_callback :validate, :after, :validate!
-    set_callback :validate, :after, :validate!
 
     attr_accessor :key, :default_value, :allowed_format, :allowed_values, :allowed_modifiers, :allow_multiple
 

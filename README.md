@@ -88,30 +88,35 @@ method where settings can be read from and written to.
 	?> category.settings
 	=> #<ActiveConfiguration::SettingManager:0x10e7d1950 @configurable=#<Category id: 1, name: "Vinyl Records", created_at: "2011-08-03 15:46:11", updated_at: "2011-08-03 15:46:11">>
 	
-	?> category.settings.sort
+	?> category.settings[:sort]
 	=> {:value=>"alphabetical", :modifier=>nil}
 	
-	?> category.settings.sort[:value]
+	?> category.settings[:sort][:value]
 	=> "alphabetical"
 	
-	?> category.settings.sort.update(:value => 'manual')
-	=> true
+	?> category.settings[:sort][:value] = 'manual'
+	=> "manual"
 	
-	?> category.settings.price_filter
+	?> category.settings[:price_filter]
 	=> []
 	
-	?> category.settings.price_filter.update({:modifier => 'gt', :value => 10.00}, {:modifier => 'lte', :value => 25.00})
+	?> category.settings[:price_filter] = [{:modifier => 'gt', :value => 10.00}, {:modifier => 'lte', :value => 25.00}]
+	=> [{:value=>10.0, :modifier=>"gt"}, {:value=>25.0, :modifier=>"lte"}]
+	
+	?> category.save
 	=> true
 	
-	?> category.settings.price_filter
+	?> category.settings[:sort][:value]
+	=> "manual"
+	
+	?> category.settings[:price_filter]
 	=> [{:value=>10.0, :modifier=>"gt"}, {:value=>25.0, :modifier=>"lte"}]
 
 Note:
 
-* Using the #update method will add any errors to your model's errors hash.
-* Using the #update! method will raise `ActiveConfiguration::Error`s instead.
-
-For more details, see `lib/active_configuration/setting_proxy.rb`.
+Settings are only committed after a `save` of the configurable model. If any 
+validation errors should arise, the `save` on the model will return false and 
+errors will be added to the model's errors collection.
 
 ## Testing Environment
 

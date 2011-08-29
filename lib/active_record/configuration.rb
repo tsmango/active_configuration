@@ -72,6 +72,12 @@ module ActiveRecord
           # Where the actual settings are stored against the instance.
           has_many :active_configuration_settings, :as => :configurable, :class_name => 'ActiveConfiguration::Setting'
 
+          # Validates are run on settings along with other validations.
+          validate :validate_settings
+
+          # After being saved, outstanding setting modifications are saved.
+          after_save :save_settings
+
           # Returns the configuration details of this class.
           def self.configuration
             @configuration ||= ActiveConfiguration::Base.new
@@ -92,6 +98,47 @@ module ActiveRecord
       # objects for the specific setting requested.
       def settings
         @setting_manager ||= ActiveConfiguration::SettingManager.new(self)
+      end
+
+      # Writes over multiple settings at once.
+      # 
+      # @param [Hash] replacement_settings the has of settings to be set.
+      def settings=(replacement_settings = {})
+        settings.write_settings(replacement_settings)
+      end
+
+      # Runs validations against all settings with pending modificaitons.
+      # Any errors are added to #errors[:settings].
+      def validate_settings
+        settings.validate
+      end
+
+      # Saves all settings with pending modificaitons.
+      # 
+      # @return [Boolean] whether or not the save was successful.
+      def save_settings
+        settings.save
+      end
+
+      # Writes over multiple settings and saves all setting updates at once.
+      # 
+      # @param [Hash] replacement_settings the has of settings to be set.
+      # 
+      # @return [Boolean] whether or not the save was successful.
+      def update_settings(replacement_settings = {})
+        settings.update_settings(replacement_settings)
+      end
+
+      # Overrides this model's #reload method by first resetting any requested 
+      # changes to settings and then continuing to perform a standard #reload.
+      #
+      # Note: Can this be accomplished with a callback after #reload rather 
+      # than overriding the #reload method?
+      # 
+      # @param options any options that must be passed along to this methods 
+      # original #reload method.
+      def reload(options = nil)
+        settings.reload && super(options)
       end
     end
   end

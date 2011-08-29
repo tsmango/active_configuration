@@ -94,6 +94,84 @@ describe ActiveRecord::Configuration do
         @category.settings.class.name.should eq('ActiveConfiguration::SettingManager')
       end
     end
+
+    context "#settings=" do
+      before(:each) do
+        @category = Category.create(:name => 'Vinyl')
+      end
+
+      it "should respond to #settings=" do
+        @category.respond_to?(:'settings=').should be_true
+      end
+
+      it "should allow updates to multiple settings at once from #settings=" do
+        @category.settings = {:sort => {:value => 'manual'}, :limit => {:value => 15}}
+        @category.save
+        @category.settings[:sort][:value].should  eq('manual')
+        @category.settings[:limit][:value].should eq(15)
+      end
+    end
+
+    context "#validate_settings" do
+      before(:each) do
+        @category = Category.create(:name => 'Vinyl')
+      end
+
+      it "should respond to #validate_settings" do
+        @category.respond_to?(:validate_settings).should be_true
+      end
+
+      it "should run validates on any modified settings and produce errors where appropriate" do
+        @category.settings[:sort][:value] = 'dne'
+        @category.validate_settings
+        @category.errors[:settings].size.should > 0
+      end
+    end
+
+    context "#save_settings" do
+      before(:each) do
+        @category = Category.create(:name => 'Vinyl')
+      end
+
+      it "should respond to #save_settings" do
+        @category.respond_to?(:save_settings).should be_true
+      end
+
+      it "should save an modified settings" do
+        @category.settings[:sort][:value] = 'manual'
+        @category.save_settings
+        @category.reload
+        @category.settings[:sort][:value].should eq('manual')
+      end
+    end
+
+    context "#update_settings" do
+      before(:each) do
+        @category = Category.create(:name => 'Vinyl')
+      end
+
+      it "should respond to #update_settings" do
+        @category.respond_to?(:update_settings).should be_true
+      end
+
+      it "should update given settings immediately" do
+        @category.update_settings(:sort => {:value => 'manual'})
+        @category.reload
+        @category.settings[:sort][:value].should eq('manual')
+      end
+    end
+
+    context "#reload" do
+      before(:each) do
+        @category = Category.create(:name => 'Vinyl')
+      end
+
+      it "reset any modified but not yet saved settings" do
+        @category.settings[:sort][:value] = 'manual'
+        @category.reload
+        @category.settings[:sort][:value].should eq('alphabetical')
+      end
+    end
   end
 
   describe "allowed configuration options " do

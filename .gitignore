@@ -12,3 +12,4 @@ spec/.bundle
 spec/db/*.sqlite3
 spec/log/*.log
 spec/tmp/**/*
+*.gem

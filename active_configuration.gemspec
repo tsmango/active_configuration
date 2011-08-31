@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{active_configuration}
-  s.version = "0.0.0"
+  s.version = "1.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Thomas Mango"]
-  s.date = %q{2011-08-04}
+  s.authors = [%q{Thomas Mango}]
+  s.date = %q{2011-08-31}
   s.description = %q{ActiveConfiguration is an engine that exposes a generic settings store to 
                        ActiveRecord models. Made for very configurable applications, it allows you 
                        to avoid implementing specific ways to store settings for each model that 
@@ -28,14 +28,15 @@ Gem::Specification.new do |s|
     "lib/active_configuration/option.rb",
     "lib/active_configuration/setting_manager.rb",
     "lib/active_configuration/setting_proxy.rb",
+    "lib/active_configuration/table_name.rb",
     "lib/active_configuration/version.rb",
     "lib/active_record/configuration.rb",
     "lib/generators/active_configuration/install/install_generator.rb",
     "lib/generators/active_configuration/install/templates/create_active_configuration_settings.rb"
   ]
   s.homepage = %q{http://github.com/tsmango/active_configuration}
-  s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
+  s.require_paths = [%q{lib}]
+  s.rubygems_version = %q{1.8.6}
   s.summary = %q{A generic settings store for Rails 3.x ActiveRecord models.}
 
   if s.respond_to? :specification_version then

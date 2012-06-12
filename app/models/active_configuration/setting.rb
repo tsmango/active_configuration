@@ -10,7 +10,7 @@ module ActiveConfiguration
 
     # To avoid collisions with another Setting model that isn't from
     # ActiveConfiguration, this model and table is namespaced.
-    set_table_name ActiveConfiguration::Config.table_name
+    self.table_name = ActiveConfiguration::Config.table_name
 
     # The model this Setting was created against.
     belongs_to :configurable, :polymorphic => true

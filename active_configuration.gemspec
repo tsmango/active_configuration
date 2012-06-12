@@ -5,15 +5,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{active_configuration}
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = [%q{Thomas Mango}]
-  s.date = %q{2011-08-31}
-  s.description = %q{ActiveConfiguration is an engine that exposes a generic settings store to 
-                       ActiveRecord models. Made for very configurable applications, it allows you 
-                       to avoid implementing specific ways to store settings for each model that 
-                       needs such configuration. If your application isn't very configurable, 
+  s.date = %q{2012-06-11}
+  s.description = %q{ActiveConfiguration is an engine that exposes a generic settings store to
+                       ActiveRecord models. Made for very configurable applications, it allows you
+                       to avoid implementing specific ways to store settings for each model that
+                       needs such configuration. If your application isn't very configurable,
                        ActiveConfiguration is probably overkill.}
   s.email = %q{tsmango@gmail.com}
   s.extra_rdoc_files = [

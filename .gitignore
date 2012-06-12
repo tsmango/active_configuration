@@ -1,7 +1,6 @@
 .DS_Store
 .yardoc
 .bundle
-active_configuration.tmproj
 bin
 coverage
 doc

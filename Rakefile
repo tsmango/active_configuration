@@ -5,7 +5,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name        = 'active_configuration'
     
-    gem.summary     = "A generic settings store for Rails 3.x ActiveRecord models."
+    gem.summary     = "A generic settings store for Rails 3.x and 4.x ActiveRecord models."
     
     gem.description = "ActiveConfiguration is an engine that exposes a generic settings store to 
                        ActiveRecord models. Made for very configurable applications, it allows you 

@@ -20,11 +20,6 @@ module ActiveConfiguration
       where(:key => key.to_s)
     }
 
-    # Settings should be created through a configured model's
-    # #active_configuration_settings relationship.
-    attr_protected :configurable_type
-    attr_protected :configurable_id
-
     # Settings must be related to some other model, have a key
     # and have a value. They do not necessarily need a modifier.
     validates_presence_of :configurable_type

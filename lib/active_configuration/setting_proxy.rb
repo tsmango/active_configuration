@@ -21,7 +21,7 @@ module ActiveConfiguration
     def initialize(manager, key)
       @manager, @key = manager, key
 
-      if settings = @manager.configurable.active_configuration_settings.with_key(@key).all
+      if settings = @manager.configurable.active_configuration_settings.with_key(@key).to_a
         if option.allow_multiple?
           @value = settings.collect{|setting| {:value => coerce(setting.value), :modifier => setting.modifier}}
 

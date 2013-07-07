@@ -4,18 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{active_configuration}
+  s.name = "active_configuration"
   s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{Thomas Mango}]
-  s.date = %q{2013-07-07}
-  s.description = %q{ActiveConfiguration is an engine that exposes a generic settings store to
-                       ActiveRecord models. Made for very configurable applications, it allows you
-                       to avoid implementing specific ways to store settings for each model that
-                       needs such configuration. If your application isn't very configurable,
-                       ActiveConfiguration is probably overkill.}
-  s.email = %q{tsmango@gmail.com}
+  s.authors = ["Thomas Mango"]
+  s.date = "2013-07-07"
+  s.description = "ActiveConfiguration is an engine that exposes a generic settings store to \n                       ActiveRecord models. Made for very configurable applications, it allows you \n                       to avoid implementing specific ways to store settings for each model that \n                       needs such configuration. If your application isn't very configurable, \n                       ActiveConfiguration is probably overkill."
+  s.email = "tsmango@gmail.com"
   s.extra_rdoc_files = [
     "README.md"
   ]
@@ -34,10 +30,10 @@ Gem::Specification.new do |s|
     "lib/generators/active_configuration/install/install_generator.rb",
     "lib/generators/active_configuration/install/templates/create_active_configuration_settings.rb"
   ]
-  s.homepage = %q{http://github.com/tsmango/active_configuration}
-  s.require_paths = [%q{lib}]
-  s.rubygems_version = %q{1.8.6}
-  s.summary = %q{A generic settings store for Rails 3.x and 4.x ActiveRecord models.}
+  s.homepage = "http://github.com/tsmango/active_configuration"
+  s.require_paths = ["lib"]
+  s.rubygems_version = "1.8.23"
+  s.summary = "A generic settings store for Rails 3.x and 4.x ActiveRecord models."
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
